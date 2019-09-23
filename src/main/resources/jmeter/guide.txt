@@ -1,0 +1,9 @@
+Case Design/Test Tool
+cd /Users/zhewawan/Downloads/apache-jmeter-5.1.1/bin/
+./jmeter.sh &
+
+Shell to run(recommended)
+./jmeter -n -t RESTGETtest_10000.jmx -l 1000test.jtl
+
+Jmeter download:
+https://jmeter.apache.org/
