@@ -46,4 +46,12 @@ public class EmployeeQuery {
         params.put("lastName", lastName);
         return params;
     }
+    
+    public static Map<String, Object> buildParams(String empNo, String firstName, String lastName) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("empNo", empNo);
+        params.put("firstName", firstName);
+        params.put("lastName", lastName);
+        return params;
+    }
 }

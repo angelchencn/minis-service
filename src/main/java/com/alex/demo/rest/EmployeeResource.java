@@ -8,82 +8,94 @@ import javax.inject.Singleton;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import com.alex.demo.rest.param.EmployeeQuery;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alex.demo.mybatis.impl.EmployeesImpl;
-import com.alex.demo.mybatis.mapper.EmployeesMapper;
+import com.alex.demo.mybatis.impl.EmployeeImpl;
+import com.alex.demo.mybatis.mapper.EmployeeMapper;
 import com.alex.demo.mybatis.model.Employee;
+import com.alex.demo.rest.param.EmployeeQuery;
 
 @Singleton
 @Component
 @RestController
 @Path("/employees")
 public class EmployeeResource {
-	
-	//@Autowired
-	//private static UserResource resource;
-	
-	private EmployeesMapper employeesMapper;
+
+	// @Autowired
+	// private static UserResource resource;
+
+	private EmployeeMapper employeeMapper;
 
 	public EmployeeResource() throws IOException {
 		String resource = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
-		employeesMapper = new EmployeesImpl(sqlSessionFactory);
+		employeeMapper = new EmployeeImpl(sqlSessionFactory);
 	}
-	
+
 	@GET
 	@Path("/{id}")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
 	public Employee findEmployeeById(@PathParam("id") int id) {
-		return employeesMapper.findEmployeeById(id);
+		return employeeMapper.selectByPrimaryKey(id);
 	}
+
+	@GET
+	@Path("/findEmployees")
+	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Employee> findEmployees(@BeanParam EmployeeQuery emp) {
+		return employeeMapper.findEmployees(emp.buildParams());
+	}
+	
+	//**Both Method Are the same
+	
 	
 	@GET
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Employee> findEmployees(@BeanParam EmployeeQuery emp) {
-		return employeesMapper.findEmployees(emp.buildParams());
+	public List<Employee> findEmployees(@QueryParam("empNo") String empNo, @QueryParam("firstName") String firstName,
+			@QueryParam("lastName") String lastName) {
+		return employeeMapper.findEmployees(EmployeeQuery.buildParams(empNo, firstName, lastName));
 	}
-	
+
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public Employee insertEmployee(Employee emp) {
-		return employeesMapper.insertEmployee(emp);
+	public int insertEmployee(Employee emp) {
+		return employeeMapper.insert(emp);
 	}
-	
+
 	@PUT
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public Employee putEmployee(Employee emp) {
-		return employeesMapper.updateEmployee(emp);
+	public int putEmployee(Employee emp) {
+		return employeeMapper.updateByPrimaryKey(emp);
 	}
-	
+
 	@PATCH
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public Employee patchEmployee(Employee emp) {
-		return employeesMapper.updateEmployee(emp);
+	public int patchEmployee(Employee emp) {
+		return employeeMapper.updateByPrimaryKey(emp);
 	}
-	
+
 	@DELETE
 	@Path("/{id}")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
 	public void deleteEmployeeById(@PathParam("id") int id) {
-		employeesMapper.deleteEmployeeById(id);
+		employeeMapper.deleteByPrimaryKey(id);
 	}
-	
+
 	public static void main(String[] args) throws IOException {
-		//UserResource user = new UserResource();
-		//user.getAllUsers();
+		// UserResource user = new UserResource();
+		// user.getAllUsers();
 		EmployeeResource resource = new EmployeeResource();
 //		List<Employee> empList = resource.getAllUsers();
 //		System.out.println("==" + empList.size());
@@ -117,9 +129,9 @@ public class EmployeeResource {
 //
 //		empList = resource.findUserByName("Alex");
 //		System.out.println("empList3==" + empList.size());
-		
-		//http://localhost:9090/rest/user/findUserById??emp_no=10002
-		//http://localhost:9090/rest/user/getAllUsers
+
+		// http://localhost:9090/rest/user/findUserById??emp_no=10002
+		// http://localhost:9090/rest/user/getAllUsers
 
 	}
 

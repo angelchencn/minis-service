@@ -12,7 +12,7 @@ import com.alex.demo.rest.EmployeeResource;
 
 @Component
 @Configuration
-@ApplicationPath("/rest")
+@ApplicationPath("/api")
 public class JerseyConfig extends ResourceConfig {
 	public JerseyConfig() {
         register(SpringbootResource.class);

@@ -6,27 +6,28 @@ import java.util.Map;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
-import com.alex.demo.mybatis.mapper.EmployeesMapper;
+import com.alex.demo.mybatis.mapper.EmployeeMapper;
 import com.alex.demo.mybatis.model.Employee;
 
-public class EmployeesImpl implements EmployeesMapper {
+public class EmployeeImpl implements EmployeeMapper {
 
 	private SqlSessionFactory sqlSessionFactory;
 
-	public EmployeesImpl(SqlSessionFactory sqlSessionFactory) {
+	public EmployeeImpl(SqlSessionFactory sqlSessionFactory) {
 		this.sqlSessionFactory = sqlSessionFactory;
 	}
 
 	@Override
-	public Employee insertEmployee(Employee record) {
+	public int insert(Employee record) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int result = -1;
 		try {
-			sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeesMapper.insertEmployee", record);
+			result = sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeeMapper.insert", record);
 			sqlSession.commit();
 		} finally {
 			sqlSession.close();
 		}
-		return record;
+		return result;
 	}
 
 	@Override
@@ -35,7 +36,7 @@ public class EmployeesImpl implements EmployeesMapper {
 
 		List<Employee> employees;
 		try {
-			employees = sqlSession.selectList("com.alex.demo.mybatis.mapper.EmployeesMapper.selectAll");
+			employees = sqlSession.selectList("com.alex.demo.mybatis.mapper.EmployeeMapper.selectAll");
 		} finally {
 			sqlSession.close();
 		}
@@ -44,53 +45,56 @@ public class EmployeesImpl implements EmployeesMapper {
 	}
 
 	@Override
-	public Employee findEmployeeById(int empNo) {
+	public Employee selectByPrimaryKey(Integer empNo) {
 		Employee employee = null;
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 		try {
-			employee = sqlSession.selectOne("com.alex.demo.mybatis.mapper.EmployeesMapper.findEmployeeById",
-					new Integer(empNo));
+			employee = sqlSession.selectOne("com.alex.demo.mybatis.mapper.EmployeeMapper.selectByPrimaryKey",
+					empNo);
 		} finally {
 			sqlSession.close();
 		}
 		return employee;
 	}
 
+	
+	@Override
+	public int updateByPrimaryKey(Employee record) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int result = -1;
+		try {
+			result = sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeeMapper.updateByPrimaryKey", record);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return result;
+	}
+	
+	@Override
+	public int deleteByPrimaryKey(Integer empNo) {
+		SqlSession sqlSession = sqlSessionFactory.openSession();
+		int result = -1;
+		try {
+			result = sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeeMapper.deleteByPrimaryKey", empNo);
+			sqlSession.commit();
+		} finally {
+			sqlSession.close();
+		}
+		return result;
+	}
+	
 	@Override
 	public List<Employee> findEmployees(Map params) {
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 
 		List<Employee> employees;
 		try {
-			employees = sqlSession.selectList("com.alex.demo.mybatis.mapper.EmployeesMapper.findEmployees", params);
+			employees = sqlSession.selectList("com.alex.demo.mybatis.mapper.EmployeeMapper.findEmployees", params);
 		} finally {
 			sqlSession.close();
 		}
 		return employees;
 	}
-
-	@Override
-	public Employee updateEmployee(Employee record) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeesMapper.updateEmployee", record);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-		return record;
-	}
 	
-	@Override
-	public void deleteEmployeeById(int empNo) {
-		SqlSession sqlSession = sqlSessionFactory.openSession();
-		try {
-			sqlSession.insert("com.alex.demo.mybatis.mapper.EmployeesMapper.deleteEmployeeById", empNo);
-			sqlSession.commit();
-		} finally {
-			sqlSession.close();
-		}
-		
-	}
-
 }

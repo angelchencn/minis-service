@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://mybatis.org/generator/configreference/table.html -->
 <!DOCTYPE generatorConfiguration
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
@@ -20,10 +22,10 @@
     <sqlMapGenerator targetPackage="resources.mybatis.mapper"  targetProject="./src/main"/>
     <javaClientGenerator targetPackage="com.alex.demo.mybatis.mapper" targetProject="./src/main/java" type="XMLMAPPER" />
 
-    <table tableName="employees" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true">
+    <table tableName="employees" domainObjectName="Employee" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableUpdateByExample="true" enableDeleteByPrimaryKey="true">
       <generatedKey column="emp_no" sqlStatement="Mysql" identity="true"/>
     </table>
-    <table tableName="departments" >
+    <table tableName="departments" domainObjectName="Department" enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true">
       <generatedKey column="dept_no" sqlStatement="Mysql" identity="true"/>
     </table>
     <table tableName="dept_manager" />
