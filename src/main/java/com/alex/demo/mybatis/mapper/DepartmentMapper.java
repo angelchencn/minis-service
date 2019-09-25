@@ -1,7 +1,10 @@
 package com.alex.demo.mybatis.mapper;
 
 import com.alex.demo.mybatis.model.Department;
+import com.alex.demo.mybatis.model.Employee;
+
 import java.util.List;
+import java.util.Map;
 
 public interface DepartmentMapper {
     /**
@@ -43,4 +46,9 @@ public interface DepartmentMapper {
      * @mbg.generated Tue Sep 24 10:04:15 CST 2019
      */
     int updateByPrimaryKey(Department record);
+    
+    List<Department> findDepartments(Map params);
+    
+    List<Employee> findEmployeesByDeptNo(String deptNo);
+
 }

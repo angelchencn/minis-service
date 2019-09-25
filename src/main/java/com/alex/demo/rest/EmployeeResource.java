@@ -46,7 +46,6 @@ public class EmployeeResource {
 	}
 
 	@GET
-	@Path("/findEmployees")
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Employee> findEmployees(@BeanParam EmployeeQuery emp) {
@@ -56,13 +55,13 @@ public class EmployeeResource {
 	//**Both Method Are the same
 	
 	
-	@GET
-	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
-	@Produces(MediaType.APPLICATION_JSON)
-	public List<Employee> findEmployees(@QueryParam("empNo") String empNo, @QueryParam("firstName") String firstName,
-			@QueryParam("lastName") String lastName) {
-		return employeeMapper.findEmployees(EmployeeQuery.buildParams(empNo, firstName, lastName));
-	}
+	//@GET
+	//@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })
+	//@Produces(MediaType.APPLICATION_JSON)
+	//public List<Employee> findEmployees(@QueryParam("empNo") String empNo, @QueryParam("firstName") String firstName,
+	//		@QueryParam("lastName") String lastName) {
+	//	return employeeMapper.findEmployees(EmployeeQuery.buildParams(empNo, firstName, lastName));
+	//}
 
 	@POST
 	@Consumes({ MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON })

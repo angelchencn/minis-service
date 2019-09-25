@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.alex.demo.rest.JerseyController;
 import com.alex.demo.rest.SpringbootResource;
+import com.alex.demo.rest.DepartmentResource;
 import com.alex.demo.rest.EmployeeResource;
 
 @Component
@@ -18,6 +19,7 @@ public class JerseyConfig extends ResourceConfig {
         register(SpringbootResource.class);
         register(JerseyController.class);
         register(EmployeeResource.class);
+        register(DepartmentResource.class);
     }
 
 }
